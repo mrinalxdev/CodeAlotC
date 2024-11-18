@@ -11,3 +11,6 @@
 - Understanding of input/ouput redirection and piping
 - memory management
 - string parsing
+
+## COSMO shell
+![](./banner.png)
