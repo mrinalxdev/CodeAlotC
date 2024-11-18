@@ -1,4 +1,4 @@
-#include <studio.h>
+#include <stdio.h>
 
 void display_help(){
     printf("CosmoShell built-in commands:\n");

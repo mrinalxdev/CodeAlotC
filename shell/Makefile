@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -std=c99
 all : shell
 
 shell : main.o shell.o builtins.o
-	$(CC) $(CFLAGS) -0 shell main.o shell.o builtins.o
+	$(CC) $(CFLAGS) -o shell main.o shell.o builtins.o
 
 main.o: main.c shell.h
 	$(CC) $(CFLAGS) -c main.c

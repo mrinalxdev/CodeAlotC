@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/hi_mrinal/Desktop/work/CodeAlot/cli-app",
-      "program": "/Users/hi_mrinal/Desktop/work/CodeAlot/cli-app/build/Debug/outDebug"
+      "cwd": "/Users/hi_mrinal/Desktop/work/CodeAlot/shell",
+      "program": "/Users/hi_mrinal/Desktop/work/CodeAlot/shell/build/Debug/outDebug"
     }
   ]
 }

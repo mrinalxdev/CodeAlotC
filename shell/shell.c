@@ -1,9 +1,10 @@
 #include "shell.h"
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include <stdio.h>    // For perror, printf, fgets, and stdin
+#include <stdlib.h>   // For malloc, realloc, free, and NULL
+#include <string.h>   // For strtok
+#include <unistd.h>   // For chdir and fork
+#include <sys/types.h> // For pid_t
+#include <sys/wait.h> // For wait
 
 #define BUFFER_SIZE 1024
 #define TOKEN_DELIMITERS " \t\r\n\a"
@@ -44,7 +45,7 @@ char **parse_line(char *line){
 
         if (position >= buffer_size){
             buffer_size *= 2;
-            tokens = realloc(tokens, buffer_size * sizeof(chat *));
+            tokens = realloc(tokens, buffer_size * sizeof(char *));
             if (!tokens) {
                 perror("Reallocation error");
                 exit(EXIT_FAILURE);
@@ -57,7 +58,7 @@ char **parse_line(char *line){
     return tokens;
 }
 
-// Execute commands
+// commands which is going to be externally handled
 int execute_command(char **args){
     if (strcmp(args[0], "exit") == 0) {
         return 0;
@@ -89,3 +90,50 @@ int execute_command(char **args){
     }
     return 1;
 }
+
+// int execute_command(char **args){
+//     int background_process = 0;
+//     pid_t pid;
+
+//     for (int i = 0; args[i] != NULL; i++){
+//         if (strcmp(args[i], "&") == 0){
+//             background_process = 1;
+//             args[i] = NULL
+//             break;
+//         }
+//     }
+
+//     pid = fork();
+//     if (pid == 0){
+//         // child process
+//         signal(SIGINT, SIG_DFL);
+//         if (execvp(args[0], args) == -1){
+//             perror("COSMO : command execution error");
+//             exit(EXIT_FAILURE);
+//         }
+//     } else if (pid < 0) {
+//         perror("COSMO : fork error");
+//     } else {
+//         // parent process
+//         if (!background_prcess){
+//             int status;
+//             double start_time, end_time;
+
+//             start_time = (double)clock() / CLOCKS_PER_SEC;
+//             waitpid(pid, &status, 0);
+//             end_time = (double)clock() / CLOCKS_PER_SEC;
+
+//             if (WIFEXITED(status)){
+//                 printf("Command exited with status : %d\n", WEXITSTATUS(status));
+//             } else if ( WIFSIGNALED (status)){
+//                 printf("Command terminated by signal : %d\n", WTERMSIG(status));
+//             }
+
+//             printf("Execution time : %.2f secods\n", end_time - start_time);
+//         } else {
+//             printf("Process running in background with PID : %d\n", pid);
+//         }
+//     }
+
+//     return 1
+// }

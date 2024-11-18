@@ -1,4 +1,6 @@
 #include "shell.h"
+#include <stdio.h>  
+#include <stdlib.h>
 
 int main(){
     printf("Welcome to COSMO !! type 'help' to see available commands.\n");
