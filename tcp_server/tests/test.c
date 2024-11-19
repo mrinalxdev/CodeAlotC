@@ -1,5 +1,5 @@
 #include <assert.h>
-#include "server.h"
+#include "../include/server.h"
 
 void test_server_initialisation(void){
     int server_fd = intilialise_server();
