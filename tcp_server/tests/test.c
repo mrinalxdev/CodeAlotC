@@ -31,6 +31,34 @@ int test_client_connection(void){
         printf("\n Connection Failed \n");
         return -1;
     }
-    
 
+    send(sock, message, strlen(message), 0);
+    read(sock, buffer, BUFFER_SIZE);
+    assert(strcmp(buffer, message) == 0);
+
+    close(sock);
+    return 0;
+}
+
+int main(void){
+    test_server_initialisation();
+    pid_t pid = fork();
+    if (pid == 0){
+        int server_fd = initialize_server();
+        if (server_fd < 0) return 1;
+
+        int client_fd = accept_connection(server_fd);
+        if(client_fd < 0) return 1;
+
+        handle_client(client_fd);
+        close(client_fd);
+        close_server(server_fd);
+        exit(0);
+    } else {
+        sleep(1);
+        assert(test_client_connection() == 0);
+        printf("Client connection test passed \n");
+    }
+
+    return 0;
 }
