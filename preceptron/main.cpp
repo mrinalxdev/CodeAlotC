@@ -124,6 +124,58 @@ void printDecisionBoundary(std::vector<double> weights)
     }
 }
 
+void visualize(std::vector<DataPoint> &dataset, std::vector<double> weights)
+{
+    const int GRID_SIZE = 20;
+    char grid[GRID_SIZE][GRID_SIZE];
+
+    for (int i = 0; i < GRID_SIZE; ++i)
+    {
+        for (int j = 0; j < GRID_SIZE; ++j)
+        {
+            grid[i][j] = '.';
+        }
+    }
+
+    // todo
+    for (const DataPoint &dp : dataset)
+    {
+        int x = static_cast<int>(dp.x1 * (GRID_SIZE / 10.0));
+        int y = static_cast<int>(dp.x2 * (GRID_SIZE / 10.0));
+
+        if (x >= 0 && x < GRID_SIZE && y >= 0 && y < GRID_SIZE)
+        {
+            grid[y][x] = dp.label == 1 ? '1' : '0';
+        }
+    }
+
+    // todo : decision boundary
+    for (int x = 0; x < GRID_SIZE; ++x)
+    {
+        double x_val = x * (10.0 / GRID_SIZE);
+        if (weights[2] != 0)
+        {
+            double y_val = (-weights[0] - weights[1] * x_val) / weights[2];
+            int y = static_cast<int>(y_val * (GRID_SIZE / 10.0));
+            if (y >= 0 && y < GRID_SIZE)
+            {
+                grid[y][x] = '*';
+            }
+        }
+    }
+
+    // printing up the grid here
+    for (int i = GRID_SIZE - 1; i >= 0; --i)
+    {
+        for (int j = 0; j < GRID_SIZE; ++j)
+        {
+            std::cout << grid[i][j] << " ";
+        }
+
+        std::cout << std::endl;
+    }
+}
+
 int main()
 {
     std::vector<DataPoint> dataset = createDataset();
@@ -133,5 +185,8 @@ int main()
     std::cout << "Final weights: w0 (bias) = " << weights[0] << ", w1 = " << weights[1] << ", w2 = " << weights[2] << std::endl;
     printDecisionBoundary(weights);
     testPerceptron(dataset, weights);
+
+    std::cout << "Weights: w0=" << weights[0] << ", w1=" << weights[1] << ", w2=" << weights[2] << std::endl;
+    visualize(dataset, weights);
     return 0;
 }
