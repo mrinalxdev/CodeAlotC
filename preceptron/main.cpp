@@ -163,8 +163,7 @@ void visualize(std::vector<DataPoint> &dataset, std::vector<double> weights)
             }
         }
     }
-
-    // printing up the grid here
+    
     for (int i = GRID_SIZE - 1; i >= 0; --i)
     {
         for (int j = 0; j < GRID_SIZE; ++j)
